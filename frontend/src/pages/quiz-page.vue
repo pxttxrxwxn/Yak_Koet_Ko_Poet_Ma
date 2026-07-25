@@ -197,7 +197,7 @@ onMounted(() => quizStore.fetchQuizzes())
               v-model="form.questions"
               label="Questions (JSON array)"
               prepend-inner-icon="ri-code-line"
-              hint="e.g. [{\"question\":\"...\",\"options\":[\"A\",\"B\",\"C\",\"D\"],\"correctAnswer\":0}]"
+              hint='e.g. [{"question":"...","options":["A","B","C","D"],"correctAnswer":0}]'
               rows="6"
               required
             />
