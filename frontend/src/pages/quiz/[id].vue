@@ -2,11 +2,11 @@
 import { useQuizStore } from '@/stores/use-quiz-store'
 import type { Question } from '@/models'
 
-const route = useRoute()
+const route = useRoute<'quiz-id'>()
 const router = useRouter()
 const quizStore = useQuizStore()
 
-const quizId = route.params.id as string
+const quizId = route.params.id
 const quiz = ref<any>(null)
 const questions = ref<Question[]>([])
 const currentIndex = ref(0)
@@ -183,7 +183,7 @@ function goBack() {
 
           <VRadioGroup
             :model-value="selectedAnswers[currentIndex]"
-            @update:model-value="selectAnswer"
+            @update:model-value="(val) => selectAnswer(val as number)"
           >
             <VLabel class="mb-2">Choose your answer:</VLabel>
             <VRadio

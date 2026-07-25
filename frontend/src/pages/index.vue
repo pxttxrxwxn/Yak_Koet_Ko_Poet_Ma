@@ -111,7 +111,7 @@ const router = useRouter()
             <VListItem
               v-for="quiz in quizStore.quizzes.slice(0, 5)"
               :key="quiz.id"
-              @click="router.push({ name: 'quiz-take-page', params: { id: quiz.id } })"
+              @click="router.push({ name: 'quiz-id', params: { id: quiz.id } })"
               class="cursor-pointer"
             >
               <template #prepend>
