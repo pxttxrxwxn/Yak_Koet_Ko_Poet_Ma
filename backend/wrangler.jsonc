@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yak-koet-ko-poet-ma-backend",
+  "main": "src/server.ts",
+  "compatibility_date": "2026-07-01",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "Yak_Koet_Ko_Poet_Ma-db",
+      "database_id": "1f60c568-e94f-461c-84f3-cf27bfe4596e",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "82cd65455aac478b969d3e7da140ec4c"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production"
+  }
+}
