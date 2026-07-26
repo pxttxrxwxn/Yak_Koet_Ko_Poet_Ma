@@ -53,7 +53,8 @@ async function submit() {
 }
 
 async function confirmDelete() {
-  if (!deletingUser.value) return
+  if (!deletingUser.value)
+    return
   isSubmitting.value = true
   try {
     await userStore.deleteUser(deletingUser.value.id)
@@ -107,11 +108,15 @@ onMounted(() => userStore.fetchUsers())
 
         <template #item.action="{ item }">
           <IconBtn @click="openEdit(item)">
-            <VTooltip activator="parent" location="top">Edit</VTooltip>
+            <VTooltip activator="parent" location="top">
+              Edit
+            </VTooltip>
             <VIcon icon="ri-pencil-line" />
           </IconBtn>
           <IconBtn color="error" @click="openDelete(item)">
-            <VTooltip activator="parent" location="top">Delete</VTooltip>
+            <VTooltip activator="parent" location="top">
+              Delete
+            </VTooltip>
             <VIcon icon="ri-delete-bin-line" />
           </IconBtn>
         </template>
@@ -146,7 +151,9 @@ onMounted(() => userStore.fetchUsers())
           </VForm>
         </VCardText>
         <VCardActions class="justify-end pa-4">
-          <VBtn variant="text" @click="dialog = false">Cancel</VBtn>
+          <VBtn variant="text" @click="dialog = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="primary"
             :loading="isSubmitting"
@@ -165,7 +172,9 @@ onMounted(() => userStore.fetchUsers())
           Are you sure you want to delete <strong>{{ deletingUser?.name }}</strong>? This action cannot be undone.
         </VCardText>
         <VCardActions class="justify-end pa-4">
-          <VBtn variant="text" @click="deleteDialog = false">Cancel</VBtn>
+          <VBtn variant="text" @click="deleteDialog = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="error"
             :loading="isSubmitting"

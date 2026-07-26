@@ -22,16 +22,18 @@ async function loadData() {
       quizStore.fetchQuizzes(),
       quizStore.fetchAttemptsByUser('anonymous'),
     ])
-  } catch (e: any) {
+  }
+  catch (e: any) {
     console.error('Failed to load history', e)
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
 
 const mappedAttempts = computed(() => {
   const quizMap = new Map(quizStore.quizzes.map(q => [q.id, q]))
-  return quizStore.attempts.map(a => {
+  return quizStore.attempts.map((a) => {
     const q = quizMap.get(a.quizId)
     return {
       ...a,
@@ -42,13 +44,16 @@ const mappedAttempts = computed(() => {
 })
 
 function formatDate(iso: string | null) {
-  if (!iso) return '-'
+  if (!iso)
+    return '-'
   return new Date(iso).toLocaleDateString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })
 }
 
 function scoreColor(percentage: number) {
-  if (percentage >= 80) return 'success'
-  if (percentage >= 50) return 'warning'
+  if (percentage >= 80)
+    return 'success'
+  if (percentage >= 50)
+    return 'warning'
   return 'error'
 }
 

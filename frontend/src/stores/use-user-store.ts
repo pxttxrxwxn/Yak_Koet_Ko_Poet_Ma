@@ -31,7 +31,8 @@ export const useUserStore = defineStore('UserStore', () => {
   async function updateUser(id: string, body: UpdateUserBody) {
     const res = await userApi.update(id, body)
     const idx = users.value.findIndex(u => u.id === id)
-    if (idx !== -1) users.value[idx] = res.data
+    if (idx !== -1)
+      users.value[idx] = res.data
     return res.data
   }
 

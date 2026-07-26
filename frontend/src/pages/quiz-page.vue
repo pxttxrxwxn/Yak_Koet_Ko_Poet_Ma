@@ -26,7 +26,8 @@ const form = ref<CreateQuizBody>({ title: '', description: '', questions: '[]', 
 function parseQuestionsCount(questions: string): number {
   try {
     return JSON.parse(questions).length
-  } catch {
+  }
+  catch {
     return 0
   }
 }
@@ -76,7 +77,8 @@ async function submit() {
 }
 
 async function confirmDelete() {
-  if (!deletingQuiz.value) return
+  if (!deletingQuiz.value)
+    return
   isSubmitting.value = true
   try {
     await quizStore.deleteQuiz(deletingQuiz.value.id)
@@ -151,15 +153,21 @@ onMounted(() => quizStore.fetchQuizzes())
 
             <template #item.action="{ item }">
               <IconBtn @click="startQuiz(item)">
-                <VTooltip activator="parent" location="top">Take Quiz</VTooltip>
+                <VTooltip activator="parent" location="top">
+                  Take Quiz
+                </VTooltip>
                 <VIcon icon="ri-play-circle-line" color="success" />
               </IconBtn>
               <IconBtn @click="openEdit(item)">
-                <VTooltip activator="parent" location="top">Edit</VTooltip>
+                <VTooltip activator="parent" location="top">
+                  Edit
+                </VTooltip>
                 <VIcon icon="ri-pencil-line" />
               </IconBtn>
               <IconBtn color="error" @click="openDelete(item)">
-                <VTooltip activator="parent" location="top">Delete</VTooltip>
+                <VTooltip activator="parent" location="top">
+                  Delete
+                </VTooltip>
                 <VIcon icon="ri-delete-bin-line" />
               </IconBtn>
             </template>
@@ -197,7 +205,7 @@ onMounted(() => quizStore.fetchQuizzes())
               v-model="form.questions"
               label="Questions (JSON array)"
               prepend-inner-icon="ri-code-line"
-              hint='e.g. [{"question":"...","options":["A","B","C","D"],"correctAnswer":0}]'
+              hint="e.g. [{&quot;question&quot;:&quot;...&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;],&quot;correctAnswer&quot;:0}]"
               rows="6"
               required
             />
@@ -210,7 +218,9 @@ onMounted(() => quizStore.fetchQuizzes())
           </VForm>
         </VCardText>
         <VCardActions class="justify-end pa-4">
-          <VBtn variant="text" @click="dialog = false">Cancel</VBtn>
+          <VBtn variant="text" @click="dialog = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="primary"
             :loading="isSubmitting"
@@ -230,7 +240,9 @@ onMounted(() => quizStore.fetchQuizzes())
           This will also delete all attempts for this quiz.
         </VCardText>
         <VCardActions class="justify-end pa-4">
-          <VBtn variant="text" @click="deleteDialog = false">Cancel</VBtn>
+          <VBtn variant="text" @click="deleteDialog = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="error"
             :loading="isSubmitting"

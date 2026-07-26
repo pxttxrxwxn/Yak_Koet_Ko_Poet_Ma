@@ -25,12 +25,14 @@ onMounted(async () => {
       // Fetch directly
       const apiRes = await (await import('@/apis/quiz-api')).quizApi.get(quizId)
       quiz.value = apiRes.data
-    } else {
+    }
+    else {
       quiz.value = res.data
     }
 
     questions.value = JSON.parse(quiz.value.questions)
-  } catch (e: any) {
+  }
+  catch (e: any) {
     console.error('Failed to load quiz', e)
   }
 })
@@ -56,9 +58,8 @@ function prevQuestion() {
 }
 
 function goToQuestion(index: number) {
-  if (index >= 0 && index < questions.value.length) {
+  if (index >= 0 && index < questions.value.length)
     currentIndex.value = index
-  }
 }
 
 async function submitQuiz() {
@@ -93,7 +94,8 @@ async function submitQuiz() {
       score,
       total: questions.value.length,
     })
-  } catch {
+  }
+  catch {
     // silently fail — result is already shown locally
   }
 }
@@ -112,8 +114,12 @@ function goBack() {
     <VCard v-else-if="!quiz.id" class="mb-4">
       <VCardText class="text-center py-8">
         <VIcon icon="ri-error-warning-line" size="64" color="error" />
-        <h3 class="mt-4">Quiz not found</h3>
-        <VBtn color="primary" class="mt-4" @click="goBack">Back to Quizzes</VBtn>
+        <h3 class="mt-4">
+          Quiz not found
+        </h3>
+        <VBtn color="primary" class="mt-4" @click="goBack">
+          Back to Quizzes
+        </VBtn>
       </VCardText>
     </VCard>
 
@@ -123,12 +129,20 @@ function goBack() {
       <VCard class="mb-4">
         <VCardText class="d-flex align-center justify-space-between">
           <div>
-            <h3 class="text-h5">{{ quiz.title }}</h3>
-            <p class="text-body-2 text-medium-emphasis mt-1">{{ quiz.description }}</p>
+            <h3 class="text-h5">
+              {{ quiz.title }}
+            </h3>
+            <p class="text-body-2 text-medium-emphasis mt-1">
+              {{ quiz.description }}
+            </p>
           </div>
           <div class="text-end">
-            <div class="text-h6 text-primary">{{ answeredCount }} / {{ totalQuestions }}</div>
-            <div class="text-caption">Answered</div>
+            <div class="text-h6 text-primary">
+              {{ answeredCount }} / {{ totalQuestions }}
+            </div>
+            <div class="text-caption">
+              Answered
+            </div>
           </div>
         </VCardText>
         <VCardActions class="pt-0 px-4 pb-4">
@@ -179,13 +193,17 @@ function goBack() {
           <div class="text-caption text-medium-emphasis mb-2">
             Question {{ currentIndex + 1 }} of {{ totalQuestions }}
           </div>
-          <h4 class="text-h6 mb-4">{{ currentQuestion.question }}</h4>
+          <h4 class="text-h6 mb-4">
+            {{ currentQuestion.question }}
+          </h4>
 
           <VRadioGroup
             :model-value="selectedAnswers[currentIndex]"
             @update:model-value="(val) => selectAnswer(val as number)"
           >
-            <VLabel class="mb-2">Choose your answer:</VLabel>
+            <VLabel class="mb-2">
+              Choose your answer:
+            </VLabel>
             <VRadio
               v-for="(option, oIdx) in currentQuestion.options"
               :key="oIdx"
@@ -227,7 +245,9 @@ function goBack() {
           :color="result.score / result.total >= 0.5 ? 'success' : 'warning'"
           size="80"
         />
-        <h2 class="text-h4 mt-4">Quiz Complete!</h2>
+        <h2 class="text-h4 mt-4">
+          Quiz Complete!
+        </h2>
         <div class="text-h2 text-primary my-4">
           {{ result.score }} / {{ result.total }}
         </div>

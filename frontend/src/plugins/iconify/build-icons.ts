@@ -15,14 +15,14 @@ import { dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
-const require = createRequire(import.meta.url)
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
 // Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
 import { cleanupSVG, importDirectory, isEmptyColor, parseColors, runSVGO } from '@iconify/tools'
 import type { IconifyJSON } from '@iconify/types'
 import { getIcons, getIconsCSS, stringToIcon } from '@iconify/utils'
+
+const require = createRequire(import.meta.url)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 /**
  * Script configuration

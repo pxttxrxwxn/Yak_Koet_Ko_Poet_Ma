@@ -1,3 +1,4 @@
+import { request } from './request'
 import type {
   CreateQuizAttemptBody,
   CreateQuizBody,
@@ -7,7 +8,6 @@ import type {
   QuizResultResponse,
   UpdateQuizBody,
 } from '@/models'
-import { request } from './request'
 
 const BASE = `${import.meta.env.VITE_BACKEND_URL}/api/v1/quizzes`
 

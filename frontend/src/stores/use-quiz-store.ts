@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { quizApi } from '@/apis/quiz-api'
-import type { CreateQuizBody, CreateQuizAttemptBody, Quiz, QuizAttempt, UpdateQuizBody } from '@/models'
+import type { CreateQuizAttemptBody, CreateQuizBody, Quiz, QuizAttempt, UpdateQuizBody } from '@/models'
 
 export const useQuizStore = defineStore('QuizStore', () => {
   const quizzes = ref<Quiz[]>([])
@@ -32,7 +32,8 @@ export const useQuizStore = defineStore('QuizStore', () => {
   async function updateQuiz(id: string, body: UpdateQuizBody) {
     const res = await quizApi.update(id, body)
     const idx = quizzes.value.findIndex(q => q.id === id)
-    if (idx !== -1) quizzes.value[idx] = res.data
+    if (idx !== -1)
+      quizzes.value[idx] = res.data
     return res.data
   }
 
@@ -63,8 +64,15 @@ export const useQuizStore = defineStore('QuizStore', () => {
   }
 
   return {
-    quizzes, attempts, isLoading, error,
-    fetchQuizzes, createQuiz, updateQuiz, deleteQuiz,
-    fetchAttemptsByUser, submitAttempt,
+    quizzes,
+    attempts,
+    isLoading,
+    error,
+    fetchQuizzes,
+    createQuiz,
+    updateQuiz,
+    deleteQuiz,
+    fetchAttemptsByUser,
+    submitAttempt,
   }
 })

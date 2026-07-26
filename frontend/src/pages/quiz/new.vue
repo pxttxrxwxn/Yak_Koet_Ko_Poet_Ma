@@ -16,20 +16,28 @@ const questionCount = ref(10) // Default to 10 questions
 const fileInput = ref<HTMLInputElement | null>(null)
 
 function getFileIcon(filename: string | undefined): string {
-  if (!filename) return 'ri-file-text-line'
+  if (!filename)
+    return 'ri-file-text-line'
   const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase()
-  if (ext === '.pdf') return 'ri-file-pdf-fill'
-  if (ext === '.pptx' || ext === '.ppt') return 'ri-file-ppt-fill'
-  if (ext === '.docx' || ext === '.doc') return 'ri-file-word-fill'
+  if (ext === '.pdf')
+    return 'ri-file-pdf-fill'
+  if (ext === '.pptx' || ext === '.ppt')
+    return 'ri-file-ppt-fill'
+  if (ext === '.docx' || ext === '.doc')
+    return 'ri-file-word-fill'
   return 'ri-file-text-fill'
 }
 
 function getFileColor(filename: string | undefined): string {
-  if (!filename) return 'secondary'
+  if (!filename)
+    return 'secondary'
   const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase()
-  if (ext === '.pdf') return 'error'
-  if (ext === '.pptx' || ext === '.ppt') return 'warning'
-  if (ext === '.docx' || ext === '.doc') return 'info'
+  if (ext === '.pdf')
+    return 'error'
+  if (ext === '.pptx' || ext === '.ppt')
+    return 'warning'
+  if (ext === '.docx' || ext === '.doc')
+    return 'info'
   return 'secondary'
 }
 
@@ -52,9 +60,8 @@ function onDragLeave() {
 function onDrop(e: DragEvent) {
   e.preventDefault()
   isDragging.value = false
-  if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+  if (e.dataTransfer?.files && e.dataTransfer.files.length > 0)
     handleFile(e.dataTransfer.files[0])
-  }
 }
 
 function triggerBrowse() {
@@ -63,16 +70,139 @@ function triggerBrowse() {
 
 function onFileSelect(e: Event) {
   const target = e.target as HTMLInputElement
-  if (target.files && target.files.length > 0) {
+  if (target.files && target.files.length > 0)
     handleFile(target.files[0])
-  }
 }
+
+const fileContentText = ref('')
+
+interface TopicDetails {
+  name: string
+  icon: string
+  color: string
+  keywords: string[]
+}
+
+const topics: Record<string, TopicDetails> = {
+  ux: {
+    name: 'UI/UX & Design',
+    icon: 'ri-palette-line',
+    color: 'primary',
+    keywords: ['ux', 'ui', 'design', 'experience', 'usability', 'wireframe', 'prototype', 'heuristic', 'persona', 'interaction'],
+  },
+  db: {
+    name: 'Database & SQL',
+    icon: 'ri-database-2-line',
+    color: 'success',
+    keywords: ['db', 'database', 'sql', 'query', 'index', 'nosql', 'oracle', 'mysql', 'postgres', 'mongodb', 'acid', 'join', 'normalization', 'transaction'],
+  },
+  network: {
+    name: 'Network & Security',
+    icon: 'ri-shield-keyhole-line',
+    color: 'error',
+    keywords: ['network', 'security', 'internet', 'http', 'tcp', 'ip', 'dns', 'firewall', 'cyber', 'hack', 'ssl', 'tls', 'port', 'ddos', 'cryptography'],
+  },
+  prog: {
+    name: 'Programming & Code',
+    icon: 'ri-code-s-slash-line',
+    color: 'info',
+    keywords: ['prog', 'code', 'python', 'javascript', 'js', 'ts', 'java', 'c++', 'rust', 'golang', 'compiler', 'algorithm', 'develop', 'variable', 'function', 'class', 'object', 'loop', 'array'],
+  },
+  science: {
+    name: 'Science & Biology',
+    icon: 'ri-microscope-line',
+    color: 'teal',
+    keywords: ['science', 'bio', 'physic', 'chem', 'atom', 'molecule', 'cell', 'organism', 'gravity', 'space', 'planet', 'laboratory', 'mitochondria', 'light', 'water', 'genetic', 'evolution'],
+  },
+  math: {
+    name: 'Mathematics & Statistics',
+    icon: 'ri-function-line',
+    color: 'deep-orange',
+    keywords: ['math', 'algebra', 'calculus', 'geometry', 'equation', 'arithmetic', 'number', 'theorem', 'matrix', 'statistic', 'probability', 'derivative', 'integral', 'triangle', 'fraction'],
+  },
+  history: {
+    name: 'History & Social Studies',
+    icon: 'ri-ancient-gate-line',
+    color: 'amber',
+    keywords: ['history', 'ancient', 'war', 'world war', 'culture', 'society', 'revolution', 'civilization', 'empire', 'historical', 'president', 'pyramid', 'mural', 'century'],
+  },
+  english: {
+    name: 'English & Language',
+    icon: 'ri-translate-2',
+    color: 'blue',
+    keywords: ['english', 'language', 'grammar', 'vocab', 'literature', 'writing', 'word', 'sentence', 'linguistic', 'synonym', 'antonym', 'conjunction', 'noun', 'pronoun', 'verb', 'adjective'],
+  },
+  cooking: {
+    name: 'Cooking & Culinary',
+    icon: 'ri-restaurant-2-line',
+    color: 'deep-purple',
+    keywords: ['cooking', 'food', 'culinary', 'recipe', 'bake', 'chef', 'kitchen', 'ingredient', 'dish', 'cuisine', 'fry', 'boil', 'roast', 'grill', 'yeast'],
+  },
+  business: {
+    name: 'Business & Marketing',
+    icon: 'ri-briefcase-4-line',
+    color: 'blue-grey',
+    keywords: ['business', 'finance', 'marketing', 'economy', 'market', 'stock', 'investment', 'management', 'money', 'sales', 'roi', 'product', 'price', 'promotion', 'inflation'],
+  },
+  music: {
+    name: 'Music & Art',
+    icon: 'ri-music-2-line',
+    color: 'pink',
+    keywords: ['music', 'art', 'painting', 'song', 'instrument', 'drawing', 'artist', 'melody', 'sculpture', 'gallery', 'piano', 'guitar', 'brass', 'allegro', 'cubism', 'surrealism'],
+  },
+  sports: {
+    name: 'Sports & Fitness',
+    icon: 'ri-run-line',
+    color: 'light-green',
+    keywords: ['sport', 'fitness', 'health', 'football', 'basketball', 'soccer', 'workout', 'exercise', 'athlete', 'training', 'diet', 'vitamin', 'body', 'gym', 'match'],
+  },
+  geography: {
+    name: 'Geography & Earth',
+    icon: 'ri-map-2-line',
+    color: 'cyan',
+    keywords: ['geography', 'map', 'earth', 'country', 'continent', 'river', 'mountain', 'climate', 'nation', 'capital', 'ocean', 'desert', 'volcano', 'lake'],
+  },
+}
+
+const fallbackTopic: TopicDetails = {
+  name: 'General Knowledge',
+  icon: 'ri-global-line',
+  color: 'secondary',
+  keywords: [],
+}
+
+const detectedTopicKey = computed(() => {
+  if (!selectedFile.value)
+    return 'general'
+  const searchText = (`${selectedFile.value.name} ${fileContentText.value}`).toLowerCase()
+
+  let bestTopic = 'general'
+  let maxMatches = 0
+
+  for (const [key, topic] of Object.entries(topics)) {
+    let matches = 0
+    for (const keyword of topic.keywords) {
+      if (searchText.includes(keyword))
+        matches++
+    }
+    if (matches > maxMatches) {
+      maxMatches = matches
+      bestTopic = key
+    }
+  }
+
+  return bestTopic
+})
+
+const detectedTopicDetails = computed(() => {
+  return topics[detectedTopicKey.value] || fallbackTopic
+})
 
 function handleFile(file: File) {
   // Validate extension
   const allowedExtensions = ['.pdf', '.pptx', '.ppt', '.docx', '.doc', '.txt']
   const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
-  
+
   if (!allowedExtensions.includes(fileExtension)) {
     generationError.value = `Unsupported file format. Please upload one of: ${allowedExtensions.join(', ')}`
     return
@@ -80,7 +210,17 @@ function handleFile(file: File) {
 
   selectedFile.value = file
   generationError.value = null
-  // Do not start simulation immediately, let user configure questions count first
+
+  if (fileExtension === '.txt') {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      fileContentText.value = (e.target?.result as string) || ''
+    }
+    reader.readAsText(file)
+  }
+  else {
+    fileContentText.value = ''
+  }
 }
 
 function startSimulation() {
@@ -92,7 +232,8 @@ function startSimulation() {
   const uploadInterval = setInterval(() => {
     if (uploadProgress.value < 100) {
       uploadProgress.value += 10
-    } else {
+    }
+    else {
       clearInterval(uploadInterval)
       // 2. Simulate AI processing steps
       runAISteps()
@@ -104,7 +245,8 @@ function runAISteps() {
   const stepInterval = setInterval(async () => {
     if (currentStep.value < steps.length - 1) {
       currentStep.value++
-    } else {
+    }
+    else {
       clearInterval(stepInterval)
       // 3. Generate Quiz and submit to API
       await generateQuiz()
@@ -113,478 +255,273 @@ function runAISteps() {
 }
 
 // Mock question generator based on filename keywords
-function getMockQuestions(filename: string, count: number) {
-  const name = filename.toLowerCase()
-  let pool: Array<{question: string, options: string[], correctAnswer: number}> = []
-  
-  if (name.includes('ux') || name.includes('ui') || name.includes('design') || name.includes('experience')) {
+function getMockQuestions(topicKey: string, filename: string, count: number) {
+  let pool: Array<{ question: string; options: string[]; correctAnswer: number }> = []
+
+  if (topicKey === 'ux') {
     pool = [
       {
         question: 'What does UX stand for in the context of product design?',
         options: ['User Experience', 'User Explanation', 'User Expansion', 'Unit Extension'],
-        correctAnswer: 0
+        correctAnswer: 0,
       },
       {
-        question: "Which of the following is one of Jakob Nielsen's 10 usability heuristics?",
+        question: 'Which of the following is one of Jakob Nielsen\'s 10 usability heuristics?',
         options: ['Vibrant color schemes', 'Consistency and standards', 'Infinite scroll integration', 'Complex authentication'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
       {
         question: 'What is the primary purpose of creating a low-fidelity wireframe?',
         options: ['To define final typography and brand colors', 'To plan layout, hierarchy, and content structure quickly', 'To write backend database models', 'To run Google SEO keyword analysis'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
-      {
-        question: 'Why is maintaining a high color contrast ratio important for UI/UX?',
-        options: ['It speeds up browser rendering speeds', 'It guarantees accessibility compliance (WCAG) for users with visual impairments', 'It minimizes server data usage', 'It prevents CSS grid layout overflow errors'],
-        correctAnswer: 1
-      },
-      {
-        question: 'What is A/B testing primarily used for in UX design?',
-        options: ['To compare two versions of a webpage to see which performs better', 'To compile TypeScript classes into JavaScript', 'To back up databases in two servers', 'To write unit tests for backend routers'],
-        correctAnswer: 0
-      },
-      {
-        question: "What is Fitts's Law in human-computer interaction?",
-        options: ['The time to acquire a target is a function of the distance to and size of the target', 'The user memory capacity is limited to seven items', 'The speed of computing doubles every eighteen months', 'Simple designs are always better than complex ones'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the primary purpose of creating User Personas in design?',
-        options: ['To represent the goals and behaviors of a hypothesized group of users', 'To recruit employees for the design team', 'To list legal requirements for app deployment', 'To estimate development costs'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does Information Architecture (IA) focus on?',
-        options: ['Structuring and organizing content so users can find information easily', 'Optimizing database schemas', 'Deploying cloud hosting servers', 'Configuring routers and firewalls'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is a "dark pattern" in UI design?',
-        options: ['A user interface designed to trick users into doing things they might not want to do', 'A styling mode used in night-mode designs', 'A programming pattern used in terminal commands', 'A encryption method for database tables'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does mobile-first design prioritize?',
-        options: ['Designing for smaller screens first and scaling up to larger displays', 'Developing mobile apps exclusively', 'Decreasing database connection limits', 'Minimizing backend container sizes'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is Usability Testing?',
-        options: ['Evaluating a product by testing it with representative users', 'Writing unit tests for JavaScript functions', 'Checking web hosting server uptime', 'Measuring database indexing efficiency'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does "card sorting" help UX designers with?',
-        options: ['Structuring menu navigation and content hierarchy', 'Sorting database rows alphabetically', 'Shuffling options in game loops', 'Bundling CSS assets in Vite'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the recommended minimum touch target size for mobile UI elements?',
-        options: ['48x48 pixels or dp', '12x12 pixels', '100x100 pixels', '5x5 pixels'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does Interaction Design (IxD) focus on?',
-        options: ['Creating engaging interfaces with logical behaviors and feedback loops', 'Connecting databases to API endpoints', 'Writing backup cron jobs', 'Compiling TypeScript variables'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the role of Visual Hierarchy in UI?',
-        options: ['Guiding the user\'s attention to key elements in order of importance', 'Sorting folders in the file structure', 'Enforcing type declarations in TypeScript', 'Optimizing web crawler indexing'],
-        correctAnswer: 0
-      }
     ]
-  } else if (name.includes('db') || name.includes('database') || name.includes('sql') || name.includes('query')) {
+  }
+  else if (topicKey === 'db') {
     pool = [
       {
         question: 'Which SQL join returns all records when there is a match in either left or right table?',
         options: ['INNER JOIN', 'LEFT OUTER JOIN', 'RIGHT OUTER JOIN', 'FULL OUTER JOIN'],
-        correctAnswer: 3
+        correctAnswer: 3,
       },
       {
-        question: "What does the 'A' in ACID database transaction properties represent?",
+        question: 'What does the \'A\' in ACID database transaction properties represent?',
         options: ['Atomicity', 'Availability', 'Authentication', 'Algorithm'],
-        correctAnswer: 0
+        correctAnswer: 0,
       },
       {
         question: 'What is the main operational advantage of database indexing?',
         options: ['Reduces physical server storage usage', 'Speeds up data search queries dramatically', 'Enforces strict foreign key constraints', 'Encrypts database column values'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
-      {
-        question: 'Which database normal form requires removing transitive dependencies?',
-        options: ['First Normal Form (1NF)', 'Second Normal Form (2NF)', 'Third Normal Form (3NF)', 'Boyce-Codd Normal Form (BCNF)'],
-        correctAnswer: 2
-      },
-      {
-        question: 'In NoSQL database design, what is a document-oriented database typically stored as?',
-        options: ['CSV files', 'Excel Sheets', 'JSON or BSON documents', 'SQL raw tables'],
-        correctAnswer: 2
-      },
-      {
-        question: 'What is a "foreign key" constraint in a relational database?',
-        options: ['A key used to link two tables together and enforce referential integrity', 'An encrypted field in user passwords', 'A key used for indexing API endpoints', 'A command used to access external servers'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does a database transaction log record?',
-        options: ['All modifications made to the database before they are permanently written', 'A list of registered developers', 'The layout style changes of the web app', 'The CPU utilization history of the database cluster'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the primary function of the SQL GROUP BY clause?',
-        options: ['To group rows that have the same values into summary rows', 'To join two tables horizontally', 'To sort rows in ascending order', 'To create a backup database table'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is a database deadlock?',
-        options: ['A situation where two or more transactions are waiting for each other to release locks', 'A deleted database record', 'An expired database session token', 'A database server that is powered off'],
-        correctAnswer: 0
-      },
-      {
-        question: 'In database scaling, what is sharding?',
-        options: ['Horizontal partitioning of data across multiple database instances', 'Duplicating database tables for backup', 'Creating memory cache buffers', 'Adding secondary indexes to a column'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which SQL clause is used to filter aggregate data after grouping?',
-        options: ['HAVING', 'WHERE', 'ORDER BY', 'LIMIT'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does a database trigger do?',
-        options: ['Executes a set of SQL commands automatically in response to certain events on a table', 'Speeds up server boots', 'Triggers a webhook call to external domains', 'Initializes database schemas on app load'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is database denormalization?',
-        options: ['Adding redundant data intentionally to improve read query performance', 'Normalizing tables to 3NF', 'Splitting tables into micro-tables', 'Encrypting schema declarations'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does the "I" in ACID database properties stand for?',
-        options: ['Isolation', 'Index', 'Integrity', 'Intersection'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which storage engine in MySQL supports ACID transactions and foreign keys by default?',
-        options: ['InnoDB', 'MyISAM', 'Memory', 'CSV'],
-        correctAnswer: 0
-      }
     ]
-  } else if (name.includes('network') || name.includes('security') || name.includes('internet') || name.includes('http')) {
+  }
+  else if (topicKey === 'network') {
     pool = [
       {
         question: 'Which layer of the standard OSI model is responsible for routing packets across networks?',
         options: ['Physical Layer', 'Data Link Layer', 'Network Layer', 'Transport Layer'],
-        correctAnswer: 2
+        correctAnswer: 2,
       },
       {
         question: 'What protocol runs on secure web port 443 by default?',
         options: ['HTTP', 'HTTPS', 'FTP', 'SSH'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
       {
         question: 'What is the primary function of the Domain Name System (DNS)?',
         options: ['To map user-friendly domain names to numeric IP addresses', 'To serve HTML files to clients', 'To distribute web server loads', 'To route packets through subnets'],
-        correctAnswer: 0
+        correctAnswer: 0,
       },
-      {
-        question: 'Which HTTP status code represents an "Unauthorized" client access error?',
-        options: ['400 Bad Request', '401 Unauthorized', '403 Forbidden', '404 Not Found'],
-        correctAnswer: 1
-      },
-      {
-        question: 'What is a DDoS attack designed to achieve?',
-        options: ['To steal database credentials', 'To overwhelm a server with traffic, making it unavailable to users', 'To bypass firewall rules', 'To infect files with malware'],
-        correctAnswer: 1
-      },
-      {
-        question: 'Which Transport Layer protocol guarantees delivery of packets through handshakes?',
-        options: ['TCP', 'UDP', 'ICMP', 'IP'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is a SQL Injection (SQLi) vulnerability?',
-        options: ['An attack where malicious SQL statements are inserted into entry fields for execution', 'A database indexing crash', 'An unauthorized export of table logs', 'An administrative access command'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the main function of a network Firewall?',
-        options: ['To monitor and filter incoming and outgoing traffic based on security rules', 'To host web server pages', 'To cache static image files', 'To assign dynamic IP addresses'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does the "S" in HTTPS stand for?',
-        options: ['Secure', 'Speed', 'Socket', 'System'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What happens in a Man-in-the-Middle (MitM) security attack?',
-        options: ['An attacker intercepts and relays communications between two parties who believe they are talking directly', 'A server CPU spikes to 100% capacity', 'A database lock gets released early', 'A domain name mapping expires'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the core purpose of public-key cryptography (asymmetric encryption)?',
-        options: ['To encrypt data with a public key such that only the matching private key can decrypt it', 'To share passwords openly on Github', 'To index search engines faster', 'To speed up TLS handshakes'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is a Virtual Private Network (VPN) primarily used for?',
-        options: ['Creating an encrypted, secure connection over a less secure network like the internet', 'Hosting web pages locally', 'Scaling up database memory storage', 'Caching CDN assets at the edge'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which HTTP method is standard for sending user passwords during authentication?',
-        options: ['POST', 'GET', 'HEAD', 'OPTIONS'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is CORS in the context of modern web browsers?',
-        options: ['Cross-Origin Resource Sharing', 'Cache Object Routing System', 'Common Object Request Services', 'Client Options Recovery Setup'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is Phishing?',
-        options: ['A deceptive practice to steal credentials/sensitive data by posing as a trustworthy entity', 'A technique to index code comments', 'A method of automated regression testing', 'A system deployment script'],
-        correctAnswer: 0
-      }
     ]
-  } else if (name.includes('prog') || name.includes('code') || name.includes('python') || name.includes('javascript') || name.includes('js') || name.includes('ts')) {
+  }
+  else if (topicKey === 'prog') {
     pool = [
       {
         question: 'What is a closure in modern JavaScript?',
         options: ['A function combined with its lexical surrounding state scope', 'A method to forcefully break out of a loop', 'A secure API gateway routing system', 'A style declaration in CSS preprocessors'],
-        correctAnswer: 0
+        correctAnswer: 0,
       },
       {
         question: 'Which data structure follows a Last-In, First-Out (LIFO) operational protocol?',
         options: ['Queue', 'Stack', 'Linked List', 'Binary Search Tree'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
       {
         question: 'What is the evaluated output of `typeof null` in standard JavaScript runtime?',
-        options: ["'null'", "'undefined'", "'object'", "'string'"],
-        correctAnswer: 2
+        options: ['\'null\'', '\'undefined\'', '\'object\'', '\'string\''],
+        correctAnswer: 2,
       },
-      {
-        question: 'What does the JavaScript `async` keyword prepended to a function definition guarantee?',
-        options: ['The function block executes synchronously', 'The function implicitly returns a Promise', 'The function runs on a separate worker thread', 'The function overrides parent class methods'],
-        correctAnswer: 1
-      },
-      {
-        question: 'What is the time complexity of searching in a balanced Binary Search Tree (BST) on average?',
-        options: ['O(1)', 'O(log n)', 'O(n)', 'O(n log n)'],
-        correctAnswer: 1
-      },
-      {
-        question: 'What is the key functional difference between double equals (==) and triple equals (===) in JavaScript?',
-        options: ['=== checks both value and type equality, whereas == performs type coercion before comparison', '== checks strict equality, === checks loose equality', '=== only works for primitive data strings', '== compiles faster than ==='],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does the `__init__` method represent in Python classes?',
-        options: ['An initializer/constructor method that runs when an object is instantiated', 'An index setup decorator', 'A method to delete variables', 'A library import command'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is a software Memory Leak?',
-        options: ['A condition where a program fails to release discarded memory resources, leading to potential exhaustion', 'A database backup file failure', 'An unauthorized export of server logs', 'A slow disk write rate'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does the array `map()` method do in modern JavaScript?',
-        options: ['Creates a new array populated with the results of calling a function on every element', 'Reorders/sorts elements in place', 'Filters out elements failing a condition', 'Reduces the array to a single value'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is Recursion in computer science?',
-        options: ['A programming technique where a function calls itself directly or indirectly', 'A loop that never terminates', 'An import statement referencing external packages', 'A style sheet reset helper'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the main role of interfaces in TypeScript?',
-        options: ['To define type shapes and structural contracts for compile-time checking', 'To handle express database queries', 'To compile SCSS files into CSS stylesheet', 'To register route URLs in servers'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is runtime Garbage Collection (GC)?',
-        options: ['An automatic memory management system that reclaims allocated memory no longer referenced', 'A deletion of temporary scratch files', 'A lint rules checking step', 'A security scan script'],
-        correctAnswer: 0
-      },
-      {
-        question: 'In Git version control, what does `cherry-pick` do?',
-        options: ['Applies changes from a specific commit of another branch onto the current branch', 'Deletes local branches completely', 'Clones a remote repo into subfolders', 'Merges pull requests into main'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What does `Promise.all` guarantee?',
-        options: ['Returns a single Promise that resolves when all input promises resolve, or rejects if any rejects', 'Runs promises one by one sequentially', 'Runs promises in worker threads', 'Retries failed requests up to 3 times'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the average-case time complexity of sorting an array using QuickSort?',
-        options: ['O(n log n)', 'O(n^2)', 'O(log n)', 'O(n)'],
-        correctAnswer: 0
-      }
     ]
-  } else if (name.includes('science') || name.includes('bio') || name.includes('physic') || name.includes('chem')) {
+  }
+  else if (topicKey === 'science') {
     pool = [
       {
         question: 'Which intracellular organelle is colloquially referred to as the powerhouse of the cell?',
         options: ['Nucleus', 'Ribosome', 'Mitochondria', 'Golgi apparatus'],
-        correctAnswer: 2
+        correctAnswer: 2,
       },
       {
         question: 'What is the chemical symbol of the element Gold?',
         options: ['Gd', 'Go', 'Ag', 'Au'],
-        correctAnswer: 3
+        correctAnswer: 3,
       },
       {
         question: 'What atmospheric gas do plants primarily absorb during the process of photosynthesis?',
         options: ['Oxygen', 'Carbon Dioxide', 'Nitrogen Gas', 'Hydrogen Gas'],
-        correctAnswer: 1
+        correctAnswer: 1,
       },
-      {
-        question: 'What is the approximate speed of light travelling in a vacuum environment?',
-        options: ['300,000 km/s', '150,000 km/s', '500,000 km/s', '1,000,000 km/s'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the approximate pH level of pure distilled water at room temperature?',
-        options: ['5', '6', '7', '8'],
-        correctAnswer: 2
-      },
-      {
-        question: "What is the most abundant gas in Earth's atmosphere by volume percentage?",
-        options: ['Nitrogen (approx. 78%)', 'Oxygen (approx. 21%)', 'Argon (approx. 0.9%)', 'Carbon Dioxide'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What physical force pulls objects towards the physical center of the Earth?',
-        options: ['Gravity', 'Electromagnetism', 'Strong Nuclear Force', 'Centrifugal Force'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which human organ is responsible for pumping blood throughout the circulatory system?',
-        options: ['Heart', 'Brain', 'Lungs', 'Liver'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the chemical formula for water?',
-        options: ['H2O', 'CO2', 'O2', 'NaCl'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What are the classic three states of matter commonly found on Earth?',
-        options: ['Solid, Liquid, Gas', 'Solid, Liquid, Plasma', 'Plasma, Quark, Gas', 'Gas, Liquid, Energy'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which planet in our solar system is widely referred to as the Red Planet?',
-        options: ['Mars', 'Venus', 'Jupiter', 'Mercury'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the process of a liquid turning into a gaseous state called?',
-        options: ['Evaporation', 'Condensation', 'Sublimation', 'Freezing'],
-        correctAnswer: 0
-      },
-      {
-        question: 'Which scientist formulated the laws of motion and universal gravitation?',
-        options: ['Sir Isaac Newton', 'Albert Einstein', 'Galileo Galilei', 'Marie Curie'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the fundamental molecular unit of genetic inheritance in living organisms?',
-        options: ['Gene', 'Protein', 'Cell', 'Chromosome'],
-        correctAnswer: 0
-      },
-      {
-        question: 'What is the primary source of thermal and light energy for Earth?',
-        options: ['The Sun', 'Earth\'s Core', 'Moonlight', 'Atmospheric Friction'],
-        correctAnswer: 0
-      }
     ]
-  } else {
-    // Default general knowledge / web development questions
+  }
+  else if (topicKey === 'math') {
     pool = [
       {
-        question: 'Who is the author and creator of the Vue.js JavaScript framework?',
-        options: ['Evan You', 'Dan Abramov', 'Rich Harris', 'Jordan Walke'],
-        correctAnswer: 0
+        question: 'What is the derivative of x^2 with respect to x?',
+        options: ['2x', 'x', '2', 'x^2/2'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is Hono in the modern Javascript web development ecosystem?',
-        options: ['A database object-relational mapper (ORM)', 'A lightweight, fast, and multi-runtime web framework', 'A frontend component styling design system', 'A build bundle bundler tool'],
-        correctAnswer: 1
+        question: 'What is the value of pi to two decimal places?',
+        options: ['3.14', '3.12', '3.16', '3.18'],
+        correctAnswer: 0,
       },
       {
-        question: 'Which Cloudflare service provides key-value data storage at the edge?',
-        options: ['Cloudflare D1', 'Cloudflare Workers KV', 'Cloudflare Pages', 'Cloudflare R2'],
-        correctAnswer: 1
+        question: 'Solve for x: 2x + 5 = 15.',
+        options: ['5', '10', '7.5', '20'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'history') {
+    pool = [
+      {
+        question: 'Who was the first President of the United States?',
+        options: ['George Washington', 'Thomas Jefferson', 'John Adams', 'Abraham Lincoln'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is the default port for local development servers using Vite?',
-        options: ['3000', '8080', '5173', '8787'],
-        correctAnswer: 2
+        question: 'In which year did World War II end?',
+        options: ['1945', '1918', '1939', '1950'],
+        correctAnswer: 0,
       },
       {
-        question: 'Which architecture separating layers of concern is implemented in this template backend?',
-        options: ['MVC Architecture', 'Monolithic Spaghetti Design', 'Clean Architecture', 'Microservices Distributed System'],
-        correctAnswer: 2
+        question: 'The ancient pyramids of Giza are located in which country?',
+        options: ['Egypt', 'Greece', 'Italy', 'Mexico'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'english') {
+    pool = [
+      {
+        question: 'Which of the following is a synonym for \'benevolent\'?',
+        options: ['Kind', 'Cruel', 'Greedy', 'Lazy'],
+        correctAnswer: 0,
       },
       {
-        question: 'What does CSS stand for in web styling?',
-        options: ['Cascading Style Sheets', 'Creative Style System', 'Computer Style Structure', 'Complex Style Sheets'],
-        correctAnswer: 0
+        question: 'Identify the conjunction in the sentence: "I wanted to go, but it was raining."',
+        options: ['but', 'to', 'wanted', 'raining'],
+        correctAnswer: 0,
       },
       {
-        question: 'Which HTML tag is used to reference external JavaScript code files?',
-        options: ['<script>', '<link>', '<js>', '<code-source>'],
-        correctAnswer: 0
+        question: 'What is the term for a word that is spelled the same as another word but has a different meaning?',
+        options: ['Homonym', 'Synonym', 'Antonym', 'Acronym'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'cooking') {
+    pool = [
+      {
+        question: 'What is the primary ingredient in traditional Japanese tofu?',
+        options: ['Soybeans', 'Rice flour', 'Wheat gluten', 'Milk'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is the Document Object Model (DOM) in web development?',
-        options: ['An interface/programming API representing HTML/XML documents as nodes in a tree structure', 'A hosting repository standard', 'A database relational table setup', 'A stylesheets preprocessor'],
-        correctAnswer: 0
+        question: 'Which cooking technique involves cooking food gently in liquid just below the boiling point?',
+        options: ['Poaching', 'Frying', 'Roasting', 'Grilling'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is a Progressive Web App (PWA)?',
-        options: ['A web app that utilizes modern capabilities to deliver an app-like experience to users', 'An application compiled to assembly language', 'A database that scales dynamically at runtime', 'A stylesheet designed with Tailwind CSS'],
-        correctAnswer: 0
+        question: 'What is the main leavening agent used in traditional bread making?',
+        options: ['Yeast', 'Baking powder', 'Baking soda', 'Cream of tartar'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'business') {
+    pool = [
+      {
+        question: 'What does "ROI" stand for in business and finance?',
+        options: ['Return on Investment', 'Rate of Interest', 'Risk of Inflation', 'Revenue of Industry'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is npm?',
-        options: ['Node Package Manager', 'Network Protocol Method', 'Node Process Monitor', 'New Product Marketplace'],
-        correctAnswer: 0
+        question: 'Which of the following describes the "4 Ps" of marketing?',
+        options: ['Product, Price, Place, Promotion', 'Plan, Process, People, Performance', 'Profit, Production, Publicity, Purchase', 'Position, Promotion, Publicity, Planning'],
+        correctAnswer: 0,
       },
       {
-        question: 'What does the HTTP status code 404 signify?',
-        options: ['The server could not find the requested resource path', 'The request was unauthorized', 'The request was forbidden by admin rules', 'An internal server error occurred'],
-        correctAnswer: 0
+        question: 'What is a bear market in stock trading?',
+        options: ['A market where prices are falling, encouraging selling', 'A market where prices are rising, encouraging buying', 'A market with low transaction volume', 'A market exclusive to commodity trading'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'music') {
+    pool = [
+      {
+        question: 'How many keys are there on a standard piano?',
+        options: ['88', '76', '64', '100'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is the primary benefit of writing Semantic HTML elements?',
-        options: ['It defines meaning clearly for both browser interpreters and accessibility screen readers', 'It speeds up page load times dramatically', 'It encrypts form submissions automatically', 'It prevents CSS grid styling overrides'],
-        correctAnswer: 0
+        question: 'Who is widely regarded as the pioneer of Cubism in modern art?',
+        options: ['Pablo Picasso', 'Claude Monet', 'Vincent van Gogh', 'Salvador Dali'],
+        correctAnswer: 0,
       },
       {
-        question: 'What is the role of tools like Vite or Webpack in modern setups?',
-        options: ['To bundle assets/modules and provide development server utilities', 'To run PostgreSQL databases', 'To deploy physical server hardware', 'To compile Python backend scripts'],
-        correctAnswer: 0
+        question: 'Which instrument belongs to the brass family?',
+        options: ['Trumpet', 'Flute', 'Violin', 'Clarinet'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'sports') {
+    pool = [
+      {
+        question: 'How long is a standard association football (soccer) match, excluding extra time?',
+        options: ['90 minutes', '80 minutes', '60 minutes', '100 minutes'],
+        correctAnswer: 0,
       },
       {
-        question: 'What does SSR stand for in single page application frameworks?',
-        options: ['Server-Side Rendering', 'Secure Socket Routing', 'Simple Search Result', 'System Storage Recovery'],
-        correctAnswer: 0
+        question: 'What is the maximum number of players allowed on the court for one team in basketball?',
+        options: ['5', '6', '7', '11'],
+        correctAnswer: 0,
       },
       {
-        question: 'Which CSS layout system is optimized for one-dimensional layouts?',
-        options: ['Flexbox', 'CSS Grid', 'Float layout', 'Absolute positioning'],
-        correctAnswer: 0
-      }
+        question: 'Which vitamin is primarily produced when human skin is exposed to sunlight?',
+        options: ['Vitamin D', 'Vitamin C', 'Vitamin A', 'Vitamin B12'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else if (topicKey === 'geography') {
+    pool = [
+      {
+        question: 'What is the capital city of Australia?',
+        options: ['Canberra', 'Sydney', 'Melbourne', 'Brisbane'],
+        correctAnswer: 0,
+      },
+      {
+        question: 'Which is the largest ocean on Earth?',
+        options: ['Pacific Ocean', 'Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean'],
+        correctAnswer: 0,
+      },
+      {
+        question: 'What is the longest river in the world?',
+        options: ['Nile River', 'Amazon River', 'Yangtze River', 'Mississippi River'],
+        correctAnswer: 0,
+      },
+    ]
+  }
+  else {
+    pool = [
+      {
+        question: 'Which planet in our solar system is the largest?',
+        options: ['Jupiter', 'Saturn', 'Earth', 'Mars'],
+        correctAnswer: 0,
+      },
+      {
+        question: 'Who wrote the famous play "Romeo and Juliet"?',
+        options: ['William Shakespeare', 'Charles Dickens', 'Mark Twain', 'Jane Austen'],
+        correctAnswer: 0,
+      },
+      {
+        question: 'What is the capital city of France?',
+        options: ['Paris', 'London', 'Rome', 'Berlin'],
+        correctAnswer: 0,
+      },
     ]
   }
 
@@ -593,52 +530,114 @@ function getMockQuestions(filename: string, count: number) {
   const resultQuestions: typeof pool = []
 
   // Fill from pool
-  for (let i = 0; i < Math.min(count, shuffledPool.length); i++) {
+  for (let i = 0; i < Math.min(count, shuffledPool.length); i++)
     resultQuestions.push(shuffledPool[i])
-  }
 
   // If count is greater than pool size, generate procedural questions
   if (count > shuffledPool.length) {
     const needed = count - shuffledPool.length
     for (let i = 0; i < needed; i++) {
       const idx = shuffledPool.length + i
-      if (name.includes('ux') || name.includes('ui') || name.includes('design') || name.includes('experience')) {
+      const cleanFilename = filename.substring(0, filename.lastIndexOf('.'))
+
+      if (topicKey === 'ux') {
         resultQuestions.push({
-          question: `Procedural UI/UX Quiz #${idx}: In prototyping for user test iteration ${idx + 1}, what is the main risk of using extremely high-fidelity mockups too early?`,
+          question: `Procedural UI/UX Quiz #${idx}: In prototyping for user test iteration ${idx + 1} (based on ${cleanFilename}), what is the main risk of using extremely high-fidelity mockups too early?`,
           options: ['Users may focus too much on small visual details like colors rather than structural workflow usability', 'The prototype runs too slow on standard servers', 'CSS compilation will fail in Vite', 'The database transaction fails to commit'],
-          correctAnswer: 0
+          correctAnswer: 0,
         })
-      } else if (name.includes('db') || name.includes('database') || name.includes('sql') || name.includes('query')) {
+      }
+      else if (topicKey === 'db') {
         resultQuestions.push({
-          question: `Procedural Database Quiz #${idx}: Suppose you execute an aggregate search on table 'Records_${idx}'. Which index type is most appropriate to optimize equality matches?`,
+          question: `Procedural Database Quiz #${idx}: Suppose you execute an aggregate search on table 'Records_${idx}' in database context of '${cleanFilename}'. Which index type is most appropriate to optimize equality matches?`,
           options: ['B-Tree Index', 'Spatial Index', 'Full-Text Index', 'Inverted Index'],
-          correctAnswer: 0
+          correctAnswer: 0,
         })
-      } else if (name.includes('network') || name.includes('security') || name.includes('internet') || name.includes('http')) {
+      }
+      else if (topicKey === 'network') {
         resultQuestions.push({
-          question: `Procedural Network Quiz #${idx}: In securing web endpoint /api/v1/data/${idx}, which method is best suited to prevent brute-force authentication attacks?`,
+          question: `Procedural Network Quiz #${idx}: In securing web endpoint /api/v1/data/${idx} associated with '${cleanFilename}', which method is best suited to prevent brute-force authentication attacks?`,
           options: ['Implementing rate limiting and temporary IP lockout policies', 'Increasing server port number values', 'Adding a custom CSS stylesheet', 'Creating database views'],
-          correctAnswer: 0
+          correctAnswer: 0,
         })
-      } else if (name.includes('prog') || name.includes('code') || name.includes('python') || name.includes('javascript') || name.includes('js') || name.includes('ts')) {
+      }
+      else if (topicKey === 'prog') {
         const a = Math.floor(Math.random() * 20) + 1
         const b = Math.floor(Math.random() * 20) + 1
         resultQuestions.push({
-          question: `Procedural Coding Quiz #${idx}: What is the evaluated output of the JavaScript statement: \`let x = ${a} + ${b} + "px";\`?`,
-          options: [`"${a + b}px"`, `"${a}${b}px"`, `NaN`, `Error`],
-          correctAnswer: 0
+          question: `Procedural Coding Quiz #${idx}: Based on ${cleanFilename} code patterns, what is the evaluated output of the JavaScript statement: \`let x = ${a} + ${b} + "px";\`?`,
+          options: [`"${a + b}px"`, `"${a}${b}px"`, 'NaN', 'Error'],
+          correctAnswer: 0,
         })
-      } else if (name.includes('science') || name.includes('bio') || name.includes('physic') || name.includes('chem')) {
+      }
+      else if (topicKey === 'science') {
         resultQuestions.push({
-          question: `Procedural Science Quiz #${idx}: In a biological study with cell sample #${idx}, what organelle is key for synthesized proteins?`,
+          question: `Procedural Science Quiz #${idx}: In a scientific context of '${cleanFilename}' with sample #${idx}, which organelle is responsible for synthesising proteins?`,
           options: ['Ribosome', 'Lysosome', 'Vacuole', 'Cytoplasm'],
-          correctAnswer: 0
+          correctAnswer: 0,
         })
-      } else {
+      }
+      else if (topicKey === 'math') {
         resultQuestions.push({
-          question: `Procedural Web Dev Quiz #${idx}: When managing state values in a complex component workspace #${idx}, which hook pattern is best for centralized reactive state?`,
-          options: ['Pinia Store or Vue ref/reactive global state', 'Raw Window variable declarations', 'Locally stored CSV sheets', 'Writing raw HTML elements to document body'],
-          correctAnswer: 0
+          question: `Procedural Math Quiz #${idx}: In solving equation set #${idx} from '${cleanFilename}', what is the value of 2 raised to the power of ${idx % 5 + 3}?`,
+          options: [`${2 ** (idx % 5 + 3)}`, `${2 ** (idx % 5 + 3) + 2}`, `${2 ** (idx % 5 + 3) - 2}`, `${2 ** (idx % 5 + 3) * 2}`],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'history') {
+        resultQuestions.push({
+          question: `Procedural History Quiz #${idx}: Under the historical study of '${cleanFilename}', who was the leader of the Allied forces in Europe during World War II?`,
+          options: ['Dwight D. Eisenhower', 'Winston Churchill', 'Franklin D. Roosevelt', 'Douglas MacArthur'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'english') {
+        resultQuestions.push({
+          question: `Procedural Language Quiz #${idx}: In the grammatical structure studied in '${cleanFilename}', what is the correct plural form of the word 'phenomenon'?`,
+          options: ['Phenomena', 'Phenomenons', 'Phenomenas', 'Phenomenones'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'cooking') {
+        resultQuestions.push({
+          question: `Procedural Cooking Quiz #${idx}: In preparing a dish from the recipe file '${cleanFilename}' at step #${idx}, what does it mean to "fold" an ingredient into a batter?`,
+          options: ['Gently combining a light ingredient with a heavier mixture without deflating it', 'Stirring vigorously with a whisk', 'Boiling the mixture at high heat', 'Baking the mixture for 10 minutes'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'business') {
+        resultQuestions.push({
+          question: `Procedural Business Quiz #${idx}: Based on marketing ideas from '${cleanFilename}', what is the term for a market structure dominated by only a small number of large sellers?`,
+          options: ['Oligopoly', 'Monopoly', 'Perfect Competition', 'Monopsony'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'music') {
+        resultQuestions.push({
+          question: `Procedural Music & Art Quiz #${idx}: In studying art compositions in '${cleanFilename}', which term refers to the relative lightness or darkness of a color?`,
+          options: ['Value', 'Hue', 'Saturation', 'Chroma'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'sports') {
+        resultQuestions.push({
+          question: `Procedural Sports Quiz #${idx}: In the athletic context of '${cleanFilename}', which organ system is responsible for transporting oxygen throughout the body during exercise?`,
+          options: ['Cardiovascular system', 'Nervous system', 'Digestive system', 'Endocrine system'],
+          correctAnswer: 0,
+        })
+      }
+      else if (topicKey === 'geography') {
+        resultQuestions.push({
+          question: `Procedural Geography Quiz #${idx}: In mapping location coordinate #${idx} in '${cleanFilename}', what is the term for the imaginary line that divides the Earth into Northern and Southern hemispheres?`,
+          options: ['The Equator', 'The Prime Meridian', 'The Tropic of Cancer', 'The Tropic of Capricorn'],
+          correctAnswer: 0,
+        })
+      }
+      else {
+        resultQuestions.push({
+          question: `Procedural General Knowledge Quiz #${idx}: Referring to the context of '${cleanFilename}', what is the boiling point of pure water in degrees Fahrenheit?`,
+          options: ['212°F', '100°F', '32°F', '180°F'],
+          correctAnswer: 0,
         })
       }
     }
@@ -648,14 +647,15 @@ function getMockQuestions(filename: string, count: number) {
 }
 
 async function generateQuiz() {
-  if (!selectedFile.value) return
+  if (!selectedFile.value)
+    return
 
   const filename = selectedFile.value.name
   const baseName = filename.substring(0, filename.lastIndexOf('.'))
   const cleanTitle = baseName.replace(/[-_]/g, ' ')
-  
-  const mockQuestions = getMockQuestions(filename, questionCount.value)
-  
+
+  const mockQuestions = getMockQuestions(detectedTopicKey.value, filename, questionCount.value)
+
   const body: CreateQuizBody = {
     title: `Quiz: ${cleanTitle}`,
     description: `Auto-generated exam prep quiz from the uploaded study file "${filename}".`,
@@ -667,9 +667,11 @@ async function generateQuiz() {
     const created = await quizStore.createQuiz(body)
     isGenerating.value = false
     selectedFile.value = null
+    fileContentText.value = ''
     // Redirect to the newly created quiz
     router.push({ name: 'quiz-id', params: { id: created.id } })
-  } catch (err: any) {
+  }
+  catch (err: any) {
     generationError.value = `Failed to create quiz: ${err.message}`
     isGenerating.value = false
   }
@@ -677,6 +679,7 @@ async function generateQuiz() {
 
 function resetUpload() {
   selectedFile.value = null
+  fileContentText.value = ''
   isGenerating.value = false
   generationError.value = null
 }
@@ -692,11 +695,11 @@ function resetUpload() {
             <span class="text-h5 font-weight-bold">AI Quiz Generator</span>
           </div>
         </template>
-        
+
         <VCardSubtitle class="px-4 pb-4">
           Upload your PDFs or PPTXs study materials to generate practice multiple-choice exam sheets in seconds.
         </VCardSubtitle>
-        
+
         <VDivider class="mb-4" />
 
         <VCardText>
@@ -715,7 +718,7 @@ function resetUpload() {
           <div v-if="!selectedFile && !isGenerating">
             <div
               class="drop-zone d-flex flex-column align-center justify-center py-10 px-4 cursor-pointer"
-              :class="{ 'dragging': isDragging }"
+              :class="{ dragging: isDragging }"
               @dragover="onDragOver"
               @dragleave="onDragLeave"
               @drop="onDrop"
@@ -728,12 +731,20 @@ function resetUpload() {
               <p class="text-caption text-medium-emphasis text-center mb-4">
                 or click to browse from your device
               </p>
-              
+
               <VChipGroup column class="justify-center">
-                <VChip size="small" variant="flat" color="primary" label>PDF</VChip>
-                <VChip size="small" variant="flat" color="warning" label>PPTX / PPT</VChip>
-                <VChip size="small" variant="flat" color="info" label>DOCX / DOC</VChip>
-                <VChip size="small" variant="flat" color="secondary" label>TXT</VChip>
+                <VChip size="small" variant="flat" color="primary" label>
+                  PDF
+                </VChip>
+                <VChip size="small" variant="flat" color="warning" label>
+                  PPTX / PPT
+                </VChip>
+                <VChip size="small" variant="flat" color="info" label>
+                  DOCX / DOC
+                </VChip>
+                <VChip size="small" variant="flat" color="secondary" label>
+                  TXT
+                </VChip>
               </VChipGroup>
 
               <!-- Hidden input file -->
@@ -743,7 +754,7 @@ function resetUpload() {
                 class="d-none"
                 accept=".pdf,.pptx,.ppt,.docx,.doc,.txt"
                 @change="onFileSelect"
-              />
+              >
             </div>
           </div>
 
@@ -754,19 +765,36 @@ function resetUpload() {
               <div class="d-flex align-center gap-4">
                 <VIcon :icon="getFileIcon(selectedFile.name)" :color="getFileColor(selectedFile.name)" size="48" />
                 <div class="flex-grow-1 text-truncate">
-                  <h4 class="text-subtitle-1 font-weight-bold text-truncate mb-0">{{ selectedFile.name }}</h4>
+                  <h4 class="text-subtitle-1 font-weight-bold text-truncate mb-0">
+                    {{ selectedFile.name }}
+                  </h4>
                   <div class="d-flex align-center gap-2 mt-1">
                     <VChip size="x-small" :color="getFileColor(selectedFile.name)" variant="flat" label>
                       {{ selectedFile.name.substring(selectedFile.name.lastIndexOf('.')).toUpperCase() }}
                     </VChip>
                     <span class="text-caption text-medium-emphasis">
-                      {{ selectedFile.size > 1024 * 1024 
-                        ? (selectedFile.size / (1024 * 1024)).toFixed(2) + ' MB'
-                        : (selectedFile.size / 1024).toFixed(2) + ' KB' }}
+                      {{ selectedFile.size > 1024 * 1024
+                        ? `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`
+                        : `${(selectedFile.size / 1024).toFixed(2)} KB` }}
                     </span>
                   </div>
                 </div>
                 <VBtn icon="ri-close-line" variant="text" size="small" color="secondary" @click="resetUpload" />
+              </div>
+
+              <!-- Topic Detected Badge -->
+              <VDivider class="my-3 border-opacity-25" />
+              <div class="d-flex align-center gap-2 flex-wrap">
+                <span class="text-caption text-medium-emphasis font-weight-medium">หัวข้อวิชาที่ตรวจพบ:</span>
+                <VChip
+                  size="small"
+                  :color="detectedTopicDetails.color"
+                  variant="elevated"
+                  class="font-weight-bold"
+                >
+                  <VIcon start :icon="detectedTopicDetails.icon" size="16" class="mr-1" />
+                  {{ detectedTopicDetails.name }}
+                </VChip>
               </div>
             </VCard>
 
@@ -776,7 +804,7 @@ function resetUpload() {
                 <VIcon icon="ri-list-settings-line" color="primary" size="20" />
                 <span class="text-subtitle-1 font-weight-bold">ตั้งค่าจำนวนข้อสอบ</span>
               </div>
-              
+
               <p class="text-body-2 text-medium-emphasis mb-6">
                 เลือกจำนวนคำถามที่ต้องการให้ AI สร้างจากการอ่านเอกสารฉบับนี้ (สามารถเลือกได้ตั้งแต่ 1 ถึง 100 ข้อ)
               </p>
@@ -802,7 +830,7 @@ function resetUpload() {
                     <span>100 ข้อ</span>
                   </div>
                 </div>
-                
+
                 <!-- Bounded Text Input -->
                 <div class="text-field-container">
                   <VTextField
@@ -835,7 +863,7 @@ function resetUpload() {
               >
                 เลือกไฟล์ใหม่
               </VBtn>
-              
+
               <VBtn
                 color="primary"
                 class="flex-grow-1 py-6"
@@ -850,11 +878,27 @@ function resetUpload() {
           <!-- Generation Interface -->
           <div v-else class="text-center py-6">
             <VIcon :icon="getFileIcon(selectedFile?.name)" :color="getFileColor(selectedFile?.name)" size="48" class="mb-3" />
-            <h3 class="text-h6 font-weight-bold mb-1">{{ selectedFile?.name }}</h3>
+            <h3 class="text-h6 font-weight-bold mb-1">
+              {{ selectedFile?.name }}
+            </h3>
+
+            <!-- Topic Chip in generating state -->
+            <div class="d-flex justify-center mb-3">
+              <VChip
+                size="small"
+                :color="detectedTopicDetails.color"
+                variant="flat"
+                class="font-weight-medium"
+              >
+                <VIcon start :icon="detectedTopicDetails.icon" size="14" class="mr-1" />
+                {{ detectedTopicDetails.name }}
+              </VChip>
+            </div>
+
             <p class="text-caption text-medium-emphasis mb-6">
-              File Size: {{ (selectedFile?.size ?? 0) > 1024 * 1024 
-                ? ((selectedFile?.size ?? 0) / (1024 * 1024)).toFixed(2) + ' MB'
-                : ((selectedFile?.size ?? 0) / 1024).toFixed(2) + ' KB' }}
+              File Size: {{ (selectedFile?.size ?? 0) > 1024 * 1024
+                ? `${((selectedFile?.size ?? 0) / (1024 * 1024)).toFixed(2)} MB`
+                : `${((selectedFile?.size ?? 0) / 1024).toFixed(2)} KB` }}
               &bull; Target Questions: {{ questionCount }}
             </p>
 
@@ -881,18 +925,18 @@ function resetUpload() {
               </div>
 
               <v-slide-y-transition group>
-                <div 
-                  v-for="(step, idx) in steps" 
+                <div
+                  v-for="(step, idx) in steps"
                   :key="idx"
                   class="d-flex align-center gap-2 mb-3 text-body-2"
-                  :class="{ 
-                    'text-success font-weight-medium': currentStep > idx, 
+                  :class="{
+                    'text-success font-weight-medium': currentStep > idx,
                     'text-primary font-weight-bold': currentStep === idx,
-                    'text-disabled': currentStep < idx 
+                    'text-disabled': currentStep < idx,
                   }"
                 >
-                  <VIcon 
-                    :icon="currentStep > idx ? 'ri-checkbox-circle-fill' : currentStep === idx ? 'ri-play-circle-line' : 'ri-checkbox-blank-circle-line'" 
+                  <VIcon
+                    :icon="currentStep > idx ? 'ri-checkbox-circle-fill' : currentStep === idx ? 'ri-play-circle-line' : 'ri-checkbox-blank-circle-line'"
                     size="18"
                     :color="currentStep > idx ? 'success' : currentStep === idx ? 'primary' : 'disabled'"
                   />
@@ -900,7 +944,7 @@ function resetUpload() {
                 </div>
               </v-slide-y-transition>
             </div>
-            
+
             <VBtn
               variant="text"
               color="error"

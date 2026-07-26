@@ -1,5 +1,5 @@
-import type { CreateUserBody, UpdateUserBody, UserListResponse, UserResponse } from '@/models'
 import { request } from './request'
+import type { CreateUserBody, UpdateUserBody, UserListResponse, UserResponse } from '@/models'
 
 const BASE = `${import.meta.env.VITE_BACKEND_URL}/api/v1/users`
 

@@ -4,7 +4,6 @@ import { useSEO } from '@/composables/useSEO'
 import { useQuizStore } from '@/stores/use-quiz-store'
 import { useUserStore } from '@/stores/use-user-store'
 import { quizApi } from '@/apis/quiz-api'
-import { userApi } from '@/apis/user-api'
 
 useSEO({
   title: 'Dashboard - Yak Koet Ko Poet Ma',
@@ -26,7 +25,8 @@ onMounted(async () => {
   try {
     const attRes = await quizApi.listAttemptsByUser('anonymous')
     totalAttempts.value = attRes.data.length
-  } catch {
+  }
+  catch {
     // ignore
   }
 })
@@ -40,7 +40,9 @@ const router = useRouter()
 
 <template>
   <div>
-    <h1 class="text-h5 font-weight-bold mb-6">📊 Yak Koet Ko Poet Ma Dashboard</h1>
+    <h1 class="text-h5 font-weight-bold mb-6">
+      📊 Yak Koet Ko Poet Ma Dashboard
+    </h1>
 
     <!-- Stats Cards -->
     <VRow class="mb-6">
@@ -51,8 +53,12 @@ const router = useRouter()
               <VIcon icon="ri-questionnaire-line" size="24" />
             </VAvatar>
             <div>
-              <div class="text-caption text-medium-emphasis">Total Quizzes</div>
-              <div class="text-h5 font-weight-bold">{{ quizStore.quizzes.length }}</div>
+              <div class="text-caption text-medium-emphasis">
+                Total Quizzes
+              </div>
+              <div class="text-h5 font-weight-bold">
+                {{ quizStore.quizzes.length }}
+              </div>
             </div>
           </VCardText>
         </VCard>
@@ -65,8 +71,12 @@ const router = useRouter()
               <VIcon icon="ri-history-line" size="24" />
             </VAvatar>
             <div>
-              <div class="text-caption text-medium-emphasis">Total Attempts</div>
-              <div class="text-h5 font-weight-bold">{{ totalAttempts }}</div>
+              <div class="text-caption text-medium-emphasis">
+                Total Attempts
+              </div>
+              <div class="text-h5 font-weight-bold">
+                {{ totalAttempts }}
+              </div>
             </div>
           </VCardText>
         </VCard>
@@ -79,8 +89,12 @@ const router = useRouter()
               <VIcon icon="ri-user-3-line" size="24" />
             </VAvatar>
             <div>
-              <div class="text-caption text-medium-emphasis">Total Users</div>
-              <div class="text-h5 font-weight-bold">{{ userStore.users.length }}</div>
+              <div class="text-caption text-medium-emphasis">
+                Total Users
+              </div>
+              <div class="text-h5 font-weight-bold">
+                {{ userStore.users.length }}
+              </div>
             </div>
           </VCardText>
         </VCard>
@@ -93,7 +107,9 @@ const router = useRouter()
               <VIcon icon="ri-flashlight-line" size="24" />
             </VAvatar>
             <div>
-              <div class="text-caption text-medium-emphasis">Quick Action</div>
+              <div class="text-caption text-medium-emphasis">
+                Quick Action
+              </div>
               <VBtn size="small" color="primary" @click="router.push({ name: 'quiz-page' })">
                 Take a Quiz
               </VBtn>
@@ -111,8 +127,8 @@ const router = useRouter()
             <VListItem
               v-for="quiz in quizStore.quizzes.slice(0, 5)"
               :key="quiz.id"
-              @click="router.push({ name: 'quiz-id', params: { id: quiz.id } })"
               class="cursor-pointer"
+              @click="router.push({ name: 'quiz-id', params: { id: quiz.id } })"
             >
               <template #prepend>
                 <VAvatar color="primary" variant="tonal" size="36">
@@ -158,7 +174,9 @@ const router = useRouter()
           </VList>
           <VCardActions>
             <RouterLink :to="{ name: 'user-page' }">
-              <VBtn variant="text" size="small">View all users</VBtn>
+              <VBtn variant="text" size="small">
+                View all users
+              </VBtn>
             </RouterLink>
           </VCardActions>
         </VCard>
