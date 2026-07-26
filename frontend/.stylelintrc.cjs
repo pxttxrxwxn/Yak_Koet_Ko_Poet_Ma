@@ -21,6 +21,12 @@ module.exports = {
     'at-rule-no-unknown': null,
     'scss/at-rule-no-unknown': null,
     'scss/load-no-partial-leading-underscore': null,
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['deep', 'global'],
+      },
+    ],
   },
   overrides: [
     {

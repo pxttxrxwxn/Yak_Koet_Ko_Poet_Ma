@@ -1013,6 +1013,10 @@ function resetUpload() {
   opacity: 0.2;
 }
 
+.custom-slider-rail :deep(.v-slider-track__fill) {
+  background: #ffb347 !important;
+}
+
 .file-details-card {
   transition: all 0.3s ease;
 }
