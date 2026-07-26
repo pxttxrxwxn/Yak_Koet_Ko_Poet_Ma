@@ -26,20 +26,25 @@ export const useQuizStore = defineStore('QuizStore', () => {
   async function createQuiz(body: CreateQuizBody) {
     const res = await quizApi.create(body)
     quizzes.value.unshift(res.data)
+    await fetchQuizzes()
     return res.data
   }
 
   async function updateQuiz(id: string, body: UpdateQuizBody) {
     const res = await quizApi.update(id, body)
     const idx = quizzes.value.findIndex(q => q.id === id)
-    if (idx !== -1)
+    if (idx !== -1) {
       quizzes.value[idx] = res.data
+      quizzes.value = [...quizzes.value]
+    }
+    await fetchQuizzes()
     return res.data
   }
 
   async function deleteQuiz(id: string) {
     await quizApi.remove(id)
     quizzes.value = quizzes.value.filter(q => q.id !== id)
+    await fetchQuizzes()
   }
 
   async function fetchAttemptsByUser(userId: string) {
