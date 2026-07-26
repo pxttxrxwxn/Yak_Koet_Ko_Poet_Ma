@@ -1,8 +1,7 @@
 @use "@core/scss/base/mixins";
 
 %nav-link-active {
-  background: #ffb347 !important;
-  background: linear-gradient(-72.47deg, rgb(var(--v-global-theme-primary)) 22.16%, rgb(var(--v-global-theme-primary) 0.7) 76.47%) !important;
+  background: #FFB347 !important;
 
   i { color: rgb(var(--v-theme-on-primary)) !important; }
 
