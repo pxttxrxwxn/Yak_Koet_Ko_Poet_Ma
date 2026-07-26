@@ -12,8 +12,7 @@ const loading = ref(false)
 const headers = [
   { title: 'Quiz Title', key: 'quizTitle' },
   { title: 'Score', key: 'score' },
-  { title: 'Percentage', key: 'percentage' },
-  { title: 'Completed', key: 'completedAt' },
+  { title: 'Percentage & Completed', key: 'percentage' },
 ]
 
 async function loadData() {
@@ -101,20 +100,22 @@ onMounted(() => loadData())
         </template>
 
         <template #item.percentage="{ item }">
-          <VProgressLinear
-            :model-value="item.percentage"
-            :color="scoreColor(item.percentage)"
-            height="20"
-            rounded
-          >
-            <template #default>
-              <strong class="text-white text-caption px-2">{{ item.percentage }}%</strong>
-            </template>
-          </VProgressLinear>
-        </template>
-
-        <template #item.completedAt="{ item }">
-          {{ formatDate(item.completedAt) }}
+          <div class="d-flex flex-column py-2">
+            <VProgressLinear
+              :model-value="item.percentage"
+              :color="scoreColor(item.percentage)"
+              height="20"
+              rounded
+              class="mb-1"
+            >
+              <template #default>
+                <strong class="text-white text-caption px-2">{{ item.percentage }}%</strong>
+              </template>
+            </VProgressLinear>
+            <span class="text-caption text-medium-emphasis">
+              Completed: {{ formatDate(item.completedAt) }}
+            </span>
+          </div>
         </template>
 
         <template #no-data>
