@@ -2,7 +2,6 @@
 import { onMounted } from 'vue'
 import { useSEO } from '@/composables/useSEO'
 import { useQuizStore } from '@/stores/use-quiz-store'
-import { useUserStore } from '@/stores/use-user-store'
 import { quizApi } from '@/apis/quiz-api'
 
 useSEO({
@@ -12,14 +11,10 @@ useSEO({
 })
 
 const quizStore = useQuizStore()
-const userStore = useUserStore()
 const totalAttempts = ref(0)
 
 onMounted(async () => {
-  await Promise.all([
-    quizStore.fetchQuizzes(),
-    userStore.fetchUsers(),
-  ])
+  await quizStore.fetchQuizzes()
 
   // Count total attempts across all quizzes
   try {
@@ -46,7 +41,7 @@ const router = useRouter()
 
     <!-- Stats Cards -->
     <VRow class="mb-6">
-      <VCol cols="12" sm="6" lg="3">
+      <VCol cols="12" sm="6" lg="4">
         <VCard>
           <VCardText class="d-flex align-center gap-3">
             <VAvatar color="primary" variant="tonal" size="48">
@@ -64,7 +59,7 @@ const router = useRouter()
         </VCard>
       </VCol>
 
-      <VCol cols="12" sm="6" lg="3">
+      <VCol cols="12" sm="6" lg="4">
         <VCard>
           <VCardText class="d-flex align-center gap-3">
             <VAvatar color="success" variant="tonal" size="48">
@@ -82,25 +77,7 @@ const router = useRouter()
         </VCard>
       </VCol>
 
-      <VCol cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText class="d-flex align-center gap-3">
-            <VAvatar color="info" variant="tonal" size="48">
-              <VIcon icon="ri-user-3-line" size="24" />
-            </VAvatar>
-            <div>
-              <div class="text-caption text-medium-emphasis">
-                Total Users
-              </div>
-              <div class="text-h5 font-weight-bold">
-                {{ userStore.users.length }}
-              </div>
-            </div>
-          </VCardText>
-        </VCard>
-      </VCol>
-
-      <VCol cols="12" sm="6" lg="3">
+      <VCol cols="12" sm="12" lg="4">
         <VCard>
           <VCardText class="d-flex align-center gap-3">
             <VAvatar color="warning" variant="tonal" size="48">
@@ -121,7 +98,7 @@ const router = useRouter()
 
     <VRow>
       <!-- Recent Quizzes -->
-      <VCol cols="12" md="6">
+      <VCol cols="12">
         <VCard title="Recent Quizzes">
           <VList lines="two">
             <VListItem
@@ -148,36 +125,6 @@ const router = useRouter()
             <VBtn variant="text" size="small" @click="router.push({ name: 'quiz-page' })">
               View all quizzes
             </VBtn>
-          </VCardActions>
-        </VCard>
-      </VCol>
-
-      <!-- Recent Users -->
-      <VCol cols="12" md="6">
-        <VCard title="Recent Users">
-          <VList lines="two">
-            <VListItem
-              v-for="user in userStore.users.slice(0, 5)"
-              :key="user.id"
-            >
-              <template #prepend>
-                <VAvatar color="primary" variant="tonal" size="36">
-                  <VIcon icon="ri-user-3-line" size="18" />
-                </VAvatar>
-              </template>
-              <VListItemTitle>{{ user.name }}</VListItemTitle>
-              <VListItemSubtitle>{{ user.email }}</VListItemSubtitle>
-            </VListItem>
-            <VListItem v-if="userStore.users.length === 0" class="text-center text-medium-emphasis py-4">
-              No users yet.
-            </VListItem>
-          </VList>
-          <VCardActions>
-            <RouterLink :to="{ name: 'user-page' }">
-              <VBtn variant="text" size="small">
-                View all users
-              </VBtn>
-            </RouterLink>
           </VCardActions>
         </VCard>
       </VCol>

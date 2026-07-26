@@ -10,11 +10,6 @@ export default [
     icon: { icon: 'ri-file-text-line' },
   },
   {
-    title: 'Users',
-    to: { name: 'user-page' },
-    icon: { icon: 'ri-user-3-line' },
-  },
-  {
     title: 'Products',
     to: { name: 'product-page' },
     icon: { icon: 'ri-shopping-bag-3-line' },
