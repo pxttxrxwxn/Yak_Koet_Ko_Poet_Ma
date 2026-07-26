@@ -42,10 +42,11 @@ declare module 'vue-router/auto/routes' {
     'root': RouteRecordInfo<'root', '/', Record<never, never>, Record<never, never>>,
     '$error': RouteRecordInfo<'$error', '/:error(.*)', { error: ParamValue<true> }, { error: ParamValue<false> }>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
-    'user-page': RouteRecordInfo<'user-page', '/user-page', Record<never, never>, Record<never, never>>,
-    'quiz-page': RouteRecordInfo<'quiz-page', '/quiz-page', Record<never, never>, Record<never, never>>,
-    'quiz-history-page': RouteRecordInfo<'quiz-history-page', '/quiz-history-page', Record<never, never>, Record<never, never>>,
     'quiz-id': RouteRecordInfo<'quiz-id', '/quiz/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'quiz-new': RouteRecordInfo<'quiz-new', '/quiz/new', Record<never, never>, Record<never, never>>,
+    'quiz-history-page': RouteRecordInfo<'quiz-history-page', '/quiz-history-page', Record<never, never>, Record<never, never>>,
+    'quiz-page': RouteRecordInfo<'quiz-page', '/quiz-page', Record<never, never>, Record<never, never>>,
+    'user-page': RouteRecordInfo<'user-page', '/user-page', Record<never, never>, Record<never, never>>,
   }
 }
 

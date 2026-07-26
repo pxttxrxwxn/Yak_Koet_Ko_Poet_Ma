@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { useQuizStore } from '@/stores/use-quiz-store'
-import { quizApi } from '@/apis/quiz-api'
 
 const quizStore = useQuizStore()
-const { isLoading, error } = storeToRefs(quizStore)
+const { error } = storeToRefs(quizStore)
 
-const attempts = ref<any[]>([])
-const quizCache = ref<Record<string, any>>({})
+const loading = ref(false)
 
 const headers = [
   { title: 'Quiz Title', key: 'quizTitle' },
@@ -17,29 +16,32 @@ const headers = [
 ]
 
 async function loadData() {
+  loading.value = true
   try {
-    // Get all quizzes for mapping
-    const quizRes = await quizApi.list()
-    const quizMap: Record<string, any> = {}
-    quizRes.data.forEach(q => { quizMap[q.id] = q })
-    quizCache.value = quizMap
-
-    // Load attempts (using 'anonymous' as default user)
-    const attRes = await quizApi.listAttemptsByUser('anonymous')
-    attempts.value = attRes.data.map(a => {
-      const q = quizMap[a.quizId]
-      return {
-        ...a,
-        quizTitle: q?.title ?? 'Unknown Quiz',
-        percentage: Math.round(a.score / a.total * 100),
-      }
-    })
+    await Promise.all([
+      quizStore.fetchQuizzes(),
+      quizStore.fetchAttemptsByUser('anonymous'),
+    ])
   } catch (e: any) {
     console.error('Failed to load history', e)
+  } finally {
+    loading.value = false
   }
 }
 
-function formatDate(iso: string) {
+const mappedAttempts = computed(() => {
+  const quizMap = new Map(quizStore.quizzes.map(q => [q.id, q]))
+  return quizStore.attempts.map(a => {
+    const q = quizMap.get(a.quizId)
+    return {
+      ...a,
+      quizTitle: q?.title ?? 'Unknown Quiz',
+      percentage: a.total > 0 ? Math.round(a.score / a.total * 100) : 0,
+    }
+  })
+})
+
+function formatDate(iso: string | null) {
   if (!iso) return '-'
   return new Date(iso).toLocaleDateString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })
 }
@@ -84,8 +86,8 @@ onMounted(() => loadData())
 
       <VDataTable
         :headers="headers"
-        :items="attempts"
-        :loading="isLoading"
+        :items="mappedAttempts"
+        :loading="loading"
         hover
       >
         <template #item.score="{ item }">

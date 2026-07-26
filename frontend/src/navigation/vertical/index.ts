@@ -11,7 +11,12 @@ export default [
     heading: 'Quiz',
   },
   {
-    title: 'Quizzes',
+    title: 'New Quiz (Upload)',
+    to: { name: 'quiz-new' },
+    icon: { icon: 'ri-add-circle-line' },
+  },
+  {
+    title: 'My Quizzes',
     to: { name: 'quiz-page' },
     icon: { icon: 'ri-questionnaire-line' },
   },
