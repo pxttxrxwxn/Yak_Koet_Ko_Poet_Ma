@@ -55,6 +55,7 @@ function openDelete(quiz: Quiz) {
 }
 
 function startQuiz(quiz: Quiz) {
+  quizStore.setActiveQuizId(quiz.id)
   router.push({ name: 'quiz-id', params: { id: quiz.id } })
 }
 

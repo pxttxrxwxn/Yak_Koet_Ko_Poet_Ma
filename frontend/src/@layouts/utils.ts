@@ -57,7 +57,17 @@ export function isNavLinkActive(link: NavLink, router: Router) {
     return false
 
   return matchedRoutes.some((route) => {
-    return route.name === resolveRoutedName || route.meta.navActiveLink === resolveRoutedName
+    if (route.name !== resolveRoutedName && route.meta.navActiveLink !== resolveRoutedName)
+      return false
+
+    // If the link has params, verify they match the current route params
+    if (typeof link.to === 'object' && link.to && 'params' in link.to) {
+      const linkParams = link.to.params as Record<string, any>
+      const routeParams = router.currentRoute.value.params
+      return Object.keys(linkParams).every(key => String(linkParams[key]) === String(routeParams[key]))
+    }
+
+    return true
   })
 }
 

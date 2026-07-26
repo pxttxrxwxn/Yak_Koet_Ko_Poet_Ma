@@ -104,11 +104,19 @@ const router = useRouter()
             <VListItem
               v-for="quiz in quizStore.quizzes.slice(0, 5)"
               :key="quiz.id"
+              :color="quizStore.activeQuizId === quiz.id ? 'primary' : undefined"
               class="cursor-pointer"
-              @click="router.push({ name: 'quiz-id', params: { id: quiz.id } })"
+              @click="
+                quizStore.setActiveQuizId(quiz.id);
+                router.push({ name: 'quiz-id', params: { id: quiz.id } })
+              "
             >
               <template #prepend>
-                <VAvatar color="primary" variant="tonal" size="36">
+                <VAvatar
+                  :color="quizStore.activeQuizId === quiz.id ? 'primary' : 'primary'"
+                  :variant="quizStore.activeQuizId === quiz.id ? 'flat' : 'tonal'"
+                  size="36"
+                >
                   <VIcon icon="ri-questionnaire-line" size="18" />
                 </VAvatar>
               </template>

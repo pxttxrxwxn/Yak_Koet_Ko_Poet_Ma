@@ -16,6 +16,8 @@ const result = ref<{ score: number; total: number; correctAnswers: Record<number
 const isSubmitting = ref(false)
 
 onMounted(async () => {
+  quizStore.setActiveQuizId(quizId)
+
   try {
     const res = await quizStore.quizzes.length > 0
       ? { data: quizStore.quizzes.find(q => q.id === quizId) }
@@ -35,6 +37,10 @@ onMounted(async () => {
   catch (e: any) {
     console.error('Failed to load quiz', e)
   }
+})
+
+onUnmounted(() => {
+  quizStore.setActiveQuizId(null)
 })
 
 const currentQuestion = computed(() => questions.value[currentIndex.value] ?? null)

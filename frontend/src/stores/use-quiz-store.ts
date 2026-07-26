@@ -7,6 +7,11 @@ export const useQuizStore = defineStore('QuizStore', () => {
   const attempts = ref<QuizAttempt[]>([])
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const activeQuizId = ref<string | null>(null)
+
+  function setActiveQuizId(id: string | null) {
+    activeQuizId.value = id
+  }
 
   async function fetchQuizzes() {
     isLoading.value = true
@@ -73,6 +78,8 @@ export const useQuizStore = defineStore('QuizStore', () => {
     attempts,
     isLoading,
     error,
+    activeQuizId,
+    setActiveQuizId,
     fetchQuizzes,
     createQuiz,
     updateQuiz,
