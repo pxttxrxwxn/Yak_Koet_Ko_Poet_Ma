@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useQuizStore } from '@/stores/use-quiz-store'
 
 const quizStore = useQuizStore()
@@ -12,7 +14,6 @@ const headers = [
   { title: 'Score', key: 'score' },
   { title: 'Percentage', key: 'percentage' },
   { title: 'Completed', key: 'completedAt' },
-  { title: 'Result', key: 'result', sortable: false, align: 'end' as const },
 ]
 
 async function loadData() {
@@ -114,15 +115,6 @@ onMounted(() => loadData())
 
         <template #item.completedAt="{ item }">
           {{ formatDate(item.completedAt) }}
-        </template>
-
-        <template #item.result="{ item }">
-          <VChip
-            :color="scoreColor(item.percentage)"
-            size="small"
-          >
-            {{ item.percentage >= 80 ? 'Passed' : item.percentage >= 50 ? 'Fair' : 'Needs Review' }}
-          </VChip>
         </template>
 
         <template #no-data>

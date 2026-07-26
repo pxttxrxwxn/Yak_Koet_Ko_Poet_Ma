@@ -33,11 +33,13 @@ function getFileColor(filename: string | undefined): string {
     return 'secondary'
   const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase()
   if (ext === '.pdf')
-    return 'error'
+    return '#f40000'
   if (ext === '.pptx' || ext === '.ppt')
-    return 'warning'
+    return '#e74c3c'
   if (ext === '.docx' || ext === '.doc')
-    return 'info'
+    return '#0003b4'
+  if (ext === '.txt')
+    return '#009f98'
   return 'secondary'
 }
 
@@ -733,16 +735,16 @@ function resetUpload() {
               </p>
 
               <VChipGroup column class="justify-center">
-                <VChip size="small" variant="flat" color="primary" label>
+                <VChip size="small" variant="flat" color="#f40000" class="text-white" label>
                   PDF
                 </VChip>
-                <VChip size="small" variant="flat" color="warning" label>
+                <VChip size="small" variant="flat" color="#e74c3c" class="text-white" label>
                   PPTX / PPT
                 </VChip>
-                <VChip size="small" variant="flat" color="info" label>
+                <VChip size="small" variant="flat" color="#0003b4" class="text-white" label>
                   DOCX / DOC
                 </VChip>
-                <VChip size="small" variant="flat" color="secondary" label>
+                <VChip size="small" variant="flat" color="#009f98" class="text-white" label>
                   TXT
                 </VChip>
               </VChipGroup>
