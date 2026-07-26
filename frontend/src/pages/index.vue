@@ -5,7 +5,7 @@ import { useQuizStore } from '@/stores/use-quiz-store'
 import { quizApi } from '@/apis/quiz-api'
 
 useSEO({
-  title: 'Dashboard - Yak Koet Ko Poet Ma',
+  title: 'Dashboard - E XAM',
   description: 'Exam quiz system dashboard - ระบบสร้างแบบทดสอบก่อนสอบจากไฟล์เรียน',
   keywords: ['dashboard', 'quiz', 'exam', 'test', 'education'],
 })
@@ -36,7 +36,7 @@ const router = useRouter()
 <template>
   <div>
     <h1 class="text-h5 font-weight-bold mb-6">
-      📊 Yak Koet Ko Poet Ma Dashboard
+      📊 E XAM Dashboard
     </h1>
 
     <!-- Stats Cards -->
