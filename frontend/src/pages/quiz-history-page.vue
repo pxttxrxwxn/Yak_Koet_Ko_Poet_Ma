@@ -98,8 +98,6 @@ onMounted(() => loadData())
           <strong>{{ item.score }}</strong> / {{ item.total }}
         </template>
 
-
-
         <template #no-data>
           <div class="text-center py-8 text-disabled">
             <VIcon icon="ri-history-line" size="48" class="mb-2" />

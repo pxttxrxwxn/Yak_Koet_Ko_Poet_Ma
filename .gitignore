@@ -6,3 +6,4 @@ dist/
 *.log
 .wrangler/
 wrangler.jsonc
+stitch_wireframe_design_enhancement
