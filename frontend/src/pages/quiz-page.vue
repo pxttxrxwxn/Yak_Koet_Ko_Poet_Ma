@@ -118,7 +118,7 @@ onMounted(() => quizStore.fetchQuizzes())
                 <VBtn
                   color="primary"
                   prepend-icon="ri-questionnaire-line"
-                  @click="openCreate"
+                  @click="router.push({ name: 'quiz-new' })"
                 >
                   Create Quiz
                 </VBtn>

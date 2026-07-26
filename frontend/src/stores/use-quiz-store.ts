@@ -49,7 +49,6 @@ export const useQuizStore = defineStore('QuizStore', () => {
   async function deleteQuiz(id: string) {
     await quizApi.remove(id)
     quizzes.value = quizzes.value.filter(q => q.id !== id)
-    await fetchQuizzes()
   }
 
   async function fetchAttemptsByUser(userId: string) {
