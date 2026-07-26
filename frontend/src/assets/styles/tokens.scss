@@ -30,11 +30,11 @@
   --shadow-sm: 0 4px 12px rgb(46 38 61 / 12%);
   --shadow-md: 0 12px 24px rgb(46 38 61 / 16%);
   --shadow-lg: 0 18px 36px rgb(46 38 61 / 18%);
-  --color-brand-primary: #8c57ff;
-  --color-brand-primary-strong: #7e4ee6;
-  --color-brand-secondary: #8a8d93;
-  --color-brand-secondary-strong: #7c7f84;
-  --color-accent: #ffb400;
+  --color-brand-primary: #ffb347;
+  --color-brand-primary-strong: #e59e2b;
+  --color-brand-secondary: #dcc39c;
+  --color-brand-secondary-strong: #cbad82;
+  --color-accent: #ffd7a9;
   --color-success: #56ca00;
   --color-info: #16b1ff;
   --color-warning: #ffb400;
@@ -49,23 +49,23 @@
   --color-neutral-700: #616161;
   --color-neutral-800: #424242;
   --color-neutral-900: #212121;
-  --color-bg: #f4f5fa;
+  --color-bg: #faf8f5;
   --color-surface: #fff;
-  --color-surface-muted: #f7f6fa;
-  --color-text: #2e263d;
-  --color-text-muted: #6b647d;
-  --color-border: #dbdade;
-  --color-track: #f0f2f8;
+  --color-surface-muted: #f5f2eb;
+  --color-text: #31271d;
+  --color-text-muted: #6b5e4f;
+  --color-border: #e6dfd5;
+  --color-track: #f0eae1;
 }
 
 .v-theme--dark {
-  --color-bg: #28243d;
-  --color-surface: #312d4b;
-  --color-surface-muted: #373452;
-  --color-text: #e7e3fc;
-  --color-text-muted: #b6bee3;
-  --color-border: #4a5072;
-  --color-track: #474360;
+  --color-bg: #131313;
+  --color-surface: #201f1f;
+  --color-surface-muted: #1c1b1b;
+  --color-text: #e5e2e1;
+  --color-text-muted: #d6c3b0;
+  --color-border: #524535;
+  --color-track: #2a2a2a;
   --shadow-xs: 0 1px 2px rgb(19 17 32 / 20%);
   --shadow-sm: 0 4px 12px rgb(19 17 32 / 26%);
   --shadow-md: 0 12px 24px rgb(19 17 32 / 32%);
