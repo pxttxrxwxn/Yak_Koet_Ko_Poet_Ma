@@ -845,7 +845,7 @@ function resetUpload() {
                     suffix="ข้อ"
                     hide-details
                     class="font-weight-bold text-center-input"
-                    style="width: 100px;"
+                    style="inline-size: 100px;"
                     @blur="() => {
                       if (!questionCount || questionCount < 1) questionCount = 1;
                       if (questionCount > 100) questionCount = 100;
@@ -966,16 +966,16 @@ function resetUpload() {
 
 <style scoped>
 .drop-zone {
-  border: 2px dashed rgba(var(--v-theme-primary), 0.35);
+  border: 2px dashed rgb(var(--v-theme-primary) 0.35);
   border-radius: 12px;
-  background: rgba(var(--v-theme-primary), 0.02);
+  background: rgb(var(--v-theme-primary) 0.02);
   transition: all 0.25s ease-in-out;
 }
 
 .drop-zone:hover, .drop-zone.dragging {
-  background: rgba(var(--v-theme-primary), 0.06);
   border-color: rgb(var(--v-theme-primary));
-  box-shadow: 0 4px 20px rgba(var(--v-theme-primary), 0.1);
+  background: rgb(var(--v-theme-primary) 0.06);
+  box-shadow: 0 4px 20px rgb(var(--v-theme-primary) 0.1);
 }
 
 .animate-bounce {
@@ -986,22 +986,23 @@ function resetUpload() {
   0%, 100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
 }
 
 .max-w-400 {
-  max-width: 400px;
+  max-inline-size: 400px;
 }
 
 .border-dashed {
   border-style: dashed !important;
-  border-color: rgba(var(--v-theme-primary), 0.3) !important;
+  border-color: rgb(var(--v-theme-primary) 0.3) !important;
 }
 
 .bg-light-primary {
-  background-color: rgba(var(--v-theme-primary), 0.04) !important;
+  background-color: rgb(var(--v-theme-primary) 0.04) !important;
 }
 
 .text-center-input :deep(input) {
@@ -1017,7 +1018,7 @@ function resetUpload() {
 }
 
 .file-details-card:hover {
-  background-color: rgba(var(--v-theme-primary), 0.08) !important;
+  background-color: rgb(var(--v-theme-primary) 0.08) !important;
   transform: translateY(-2px);
 }
 </style>

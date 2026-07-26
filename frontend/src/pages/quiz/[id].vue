@@ -300,7 +300,7 @@ function goBack() {
 
 <style scoped>
 .question-nav-btn {
-  min-width: 36px;
-  height: 36px;
+  block-size: 36px;
+  min-inline-size: 36px;
 }
 </style>
